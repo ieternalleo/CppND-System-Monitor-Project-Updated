@@ -22,14 +22,14 @@ vector<Process>& System::Processes() {
   vector<int> pids{LinuxParser::Pids()};
 
   // Create a set
-  set<int> extant_pids;
+  set<int> visited_pids;
   for (Process const& process : processes_) {
-    extant_pids.insert(process.Pid());
+    visited_pids.insert(process.Pid());
   }
 
   // Emplace all new processes
   for (int pid : pids) {
-    if (extant_pids.find(pid) == extant_pids.end())
+    if (visited_pids.find(pid) == visited_pids.end())
       processes_.emplace_back(pid);
   }
 
