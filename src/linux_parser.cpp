@@ -178,13 +178,13 @@ string LinuxParser::OperatingSystem() {
 }
 
 string LinuxParser::Kernel() {
-  string os, kernel;
+  string os, kernel, tmp;
   string line;
   std::ifstream stream(kProcDirectory + kVersionFilename);
   if (stream.is_open()) {
     std::getline(stream, line);
     std::istringstream linestream(line);
-    linestream >> os >> kernel;
+    linestream >> os >> tmp >> kernel;
   }
   return kernel;
 }
@@ -251,7 +251,7 @@ long int LinuxParser::UpTime(int pid) {
                        LinuxParser::kStatFilename);
   if (stream.is_open()) {
     for (int i = 0; stream >> token; ++i)
-      if (i == 13) {
+      if (i == 22) {
         long int time{stol(token)};
         time /= sysconf(_SC_CLK_TCK);
         return time;
